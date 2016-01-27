@@ -2,8 +2,8 @@ name: CourseraApp
 account: finanview
 server: shinyapps.io
 appId: 80522
-bundleId: 360108
+bundleId: 360130
 url: https://finanview.shinyapps.io/CourseraApp/
-when: 1453931367.47475
+when: 1453933151.14693
 asMultiple: FALSE
 asStatic: FALSE
