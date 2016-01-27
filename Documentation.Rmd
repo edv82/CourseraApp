@@ -1,0 +1,32 @@
+---
+title: "Documentation - Value at Risk Simmulator"
+output: html_document
+---
+In order to see the app code in GitHub visit <https://github.com/edv82/CourseraApp>.
+
+This is a Value at Risk Simmulator App for Shiny. This app generates "N" simmulations of a normally distributed random variable, with mean "m" and standard deviation "std". For more details on the properties and definition of random variables see <https://en.wikipedia.org/wiki/Normal_distribution>.
+
+This app generates simmulations and then estimates their mean ans standard deviation in order to compute de Value at Risk of this random variable. The user has to define the "N" number of simmulations (slider with minimum value of 100 and maximum of 100.000 simmulations), the random variable's mean (slider with minimum value of 10 and maximum of 100) and standard deviation (slider with minimum value of 0.5 and maximum of 30), and the Value at Risk's confidence level (slider with minimum value of 0.90 ans maximum of 0.99). The Value at Risk estimator is described as follows:
+
+$$VaR{_N}={\bar{m}}+{\bar{\sigma}} \Phi_{CL}^{-1}$$
+
+where $VaR{_N}$ is the estimated Value at Risk (VaR), $N$ is the number of simmulations, ${\bar{m}}$ is the simmulations sample mean, ${\bar{\sigma}}$ is the simmulations sample standard deviation, $\Phi_{CL}^{-1}$ is the normal distribution inverse function for a givel confidence level, and $CL$ is the chosen confidence level. All these parameters must be specified by the user so the app can generate the desired simmulations and estimate the VaR. The app also estimates the theoretical VaR, which is defined by the following equation:
+
+$$VaR_{Theoretical}=m+\sigma\Phi_{CL}^{-1}$$
+
+where $m$ is the real distribution's mean (defined by the user with the rest of parameters), $\sigma$ is the distribution's standard deviation, $\Phi_{CL}^{-1}$ is the normal distribution inverse function for a givel confidence level, and $CL$ is the chosen confidence level. 
+
+For example, for a normal distribution with $N = 100$, ${\bar{m}} = 10$, ${\bar{\sigma}} = 30$ and $CL = 0.9$, the app will generate the following outputs: $VaR{_N} = 48.16252$ and the $VaR_{Theoretical} = 48.4465$ (because $N = 100$ is a small number of simmulations, the value of the estimated VaR will change each time these simmulations are generated). The app will also produce a density plot of the simmulations, as well as the $VaR{_N}$ illustrated as a vertical line:
+
+```{r, echo=FALSE}
+library(ggplot2)
+x <- as.data.frame(rnorm(100)*30+10)
+names(x) <- "Simulaciones"
+m <- mean(x$Simulaciones); s <- sd(x$Simulaciones); var <- m + s*qnorm(0.9)
+m <- ggplot(x, aes(x = Simulaciones)) + geom_density() + geom_vline(xintercept = var) + ggtitle("Density Plot and VaR")
+print(m)
+```
+
+Interactivity
+===============
+The user only has to move the sliders in order to change the values of the number of observations $N$, the mean $m$, the standard deviation $\sigma$ and the confidence level $CL$. Each time the user changes any of these sliders, the simmulations will be generated automatically, changing the plot and the estimators of the VaR and the Theoretical VaR. It is up to the user to choose any combination of parameters as desired.
